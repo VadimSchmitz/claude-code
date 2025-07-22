@@ -15,7 +15,8 @@ class ClaudeWrapper {
             debug: options.debug || false,
             timeout: options.timeout || 60000,
             saveChats: options.saveChats || false,
-            chatsDir: options.chatsDir || path.join(process.cwd(), 'chats')
+            chatsDir: options.chatsDir || path.join(process.cwd(), 'chats'),
+            allowFileAccess: options.allowFileAccess || false
         };
         
         // Create chats directory if saveChats is enabled
@@ -34,7 +35,9 @@ class ClaudeWrapper {
         const cmd = this._buildCommand(args);
         
         if (this.config.debug) {
-            console.log('[DEBUG] Executing:', cmd);
+            console.error('[DEBUG] Executing:', cmd);
+            console.error('[DEBUG] Working dir:', this.config.workingDir);
+            console.error('[DEBUG] Timeout:', this.config.timeout + 'ms');
         }
         
         try {
@@ -117,7 +120,7 @@ class ClaudeWrapper {
         fs.writeFileSync(filename, JSON.stringify(chatData, null, 2));
         
         if (this.config.debug) {
-            console.log(`[DEBUG] Chat saved: ${filename}`);
+            console.error(`[DEBUG] Chat saved: ${filename}`);
         }
     }
 
@@ -134,6 +137,11 @@ class ClaudeWrapper {
         }
         
         const args = ['-p']; // Print mode
+        
+        // Add file access permission if enabled
+        if (this.config.allowFileAccess) {
+            args.push('--dangerously-skip-permissions');
+        }
         
         // Add options
         if (options.json || this.config.saveChats) {
@@ -199,6 +207,11 @@ class ClaudeWrapper {
     resume(prompt, sessionId = null) {
         // Use -c flag to continue most recent conversation
         const args = ['-p', '-c'];
+        
+        // Add file access permission if enabled
+        if (this.config.allowFileAccess) {
+            args.push('--dangerously-skip-permissions');
+        }
         
         // Always use JSON when saveChats is enabled
         if (this.config.saveChats) {

@@ -25,10 +25,38 @@ flowchart TD
     F -->|If saveChats enabled| K[_saveChat method]
     K --> L[Create/Update sessionId.json file]
     
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style K fill:#9f9,stroke:#333,stroke-width:2px
-    style L fill:#9ff,stroke:#333,stroke-width:2px
+    %% Green = Tested together and verified
+    style A fill:#4f4,stroke:#333,stroke-width:2px
+    style B fill:#4f4,stroke:#333,stroke-width:2px
+    style C fill:#4f4,stroke:#333,stroke-width:2px
+    style D fill:#4f4,stroke:#333,stroke-width:2px
+    style E fill:#4f4,stroke:#333,stroke-width:2px
+    style F fill:#4f4,stroke:#333,stroke-width:2px
+    style G fill:#4f4,stroke:#333,stroke-width:2px
+    style H fill:#4f4,stroke:#333,stroke-width:2px
+    style I fill:#4f4,stroke:#333,stroke-width:2px
+    style J fill:#4f4,stroke:#333,stroke-width:2px
+    style K fill:#4f4,stroke:#333,stroke-width:2px
+    style L fill:#4f4,stroke:#333,stroke-width:2px
 ```
+
+### Legend
+```mermaid
+flowchart LR
+    T[Theorized] 
+    I[Implemented]
+    W[Working]
+    V[Verified Together]
+    
+    style T fill:#f44,stroke:#333,stroke-width:2px
+    style I fill:#fa4,stroke:#333,stroke-width:2px
+    style W fill:#ff4,stroke:#333,stroke-width:2px
+    style V fill:#4f4,stroke:#333,stroke-width:2px
+```
+- 🔴 **Red** = Theorized (planned but not implemented)
+- 🟠 **Orange** = Implemented (code exists but not tested)
+- 🟡 **Yellow** = Working (tested individually)
+- 🟢 **Green** = Verified (we both tested it together and saw it work)
 
 ## How It Works
 

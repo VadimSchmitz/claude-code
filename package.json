@@ -4,7 +4,8 @@
   "description": "Node.js wrapper for Claude CLI with automatic session management",
   "main": "claude-wrapper.js",
   "scripts": {
-    "test": "node index.js",
+    "demo": "node index.js",
+    "chat": "node chat.js",
     "example:basic": "node examples/basic-usage.js",
     "example:chat": "node examples/chat-management.js",
     "example:code": "node examples/code-assistant.js"
