@@ -1,0 +1,25 @@
+{
+  "name": "claude-wrapper",
+  "version": "1.0.0",
+  "description": "Node.js wrapper for Claude CLI with automatic session management",
+  "main": "claude-wrapper.js",
+  "scripts": {
+    "test": "node index.js",
+    "example:basic": "node examples/basic-usage.js",
+    "example:chat": "node examples/chat-management.js",
+    "example:code": "node examples/code-assistant.js"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "cli",
+    "wrapper",
+    "chat",
+    "conversation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

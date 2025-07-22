@@ -1,0 +1,6 @@
+node_modules/
+chats/
+*.log
+.env
+.DS_Store
+archive/

@@ -1,41 +1,118 @@
-# Claude Code
+# Claude CLI Wrapper
 
-![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square) [![npm]](https://www.npmjs.com/package/@anthropic-ai/claude-code)
+A Node.js wrapper for the Claude CLI that provides automatic session management and chat persistence.
 
-[npm]: https://img.shields.io/npm/v/@anthropic-ai/claude-code.svg?style=flat-square
+## Features
 
-Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows -- all through natural language commands. Use it in your terminal, IDE, or tag @claude on Github.
+- 🔄 **Automatic conversation continuation** - Messages within the same wrapper instance automatically continue the conversation
+- 💾 **Chat persistence** - All conversations are saved as JSON files with session IDs
+- 📊 **Detailed response info** - Get cost, duration, and usage data for each interaction
+- 🗂️ **Chat management** - List, load, and review previous conversations
+- 🛡️ **Error handling** - Graceful error handling with helpful messages
 
-**Learn more in the [official documentation](https://docs.anthropic.com/en/docs/claude-code/overview)**.
+## Installation
 
-<img src="./demo.gif" />
-
-## Get started
-
-1. Install Claude Code:
-
-```sh
-npm install -g @anthropic-ai/claude-code
+```bash
+npm install claude-wrapper
 ```
 
-2. Navigate to your project directory and run `claude`.
+Or clone this repository:
 
-## Reporting Bugs
+```bash
+git clone https://github.com/yourusername/claude-wrapper.git
+cd claude-wrapper
+```
 
-We welcome your feedback. Use the `/bug` command to report issues directly within Claude Code, or file a [GitHub issue](https://github.com/anthropics/claude-code/issues).
+## Quick Start
 
-## Data collection, usage, and retention
+```javascript
+const { ClaudeWrapper } = require('./claude-wrapper');
 
-When you use Claude Code, we collect feedback, which includes usage data (such as code acceptance or rejections), associated conversation data, and user feedback submitted via the `/bug` command.
+// Create a wrapper instance
+const claude = new ClaudeWrapper();
 
-### How we use your data
+// Ask a question
+const response = claude.ask('What is the capital of France?');
+console.log(response); // "The capital of France is Paris."
 
-We may use feedback to improve our products and services, but we will not train generative models using your feedback from Claude Code. Given their potentially sensitive nature, we store user feedback transcripts for only 30 days.
+// Continue the conversation
+const followUp = claude.continue('What is its population?');
+console.log(followUp); // "Paris has a population of approximately 2.1 million..."
+```
 
-If you choose to send us feedback about Claude Code, such as transcripts of your usage, Anthropic may use that feedback to debug related issues and improve Claude Code's functionality (e.g., to reduce the risk of similar bugs occurring in the future).
+## API Reference
 
-### Privacy safeguards
+### Constructor Options
 
-We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
+```javascript
+const claude = new ClaudeWrapper({
+    workingDir: process.cwd(),     // Working directory for Claude CLI
+    model: 'sonnet',               // Model to use (sonnet, opus, haiku)
+    debug: false,                  // Enable debug logging
+    timeout: 60000,                // Command timeout in milliseconds
+    saveChats: false,              // Enable chat persistence
+    chatsDir: './chats'            // Directory for saved chats
+});
+```
 
-For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+### Methods
+
+#### `ask(prompt, options)`
+Send a one-shot prompt to Claude.
+
+```javascript
+const response = claude.ask('Hello, Claude!');
+```
+
+#### `continue(prompt)`
+Continue the most recent conversation.
+
+```javascript
+const response = claude.continue('Tell me more');
+```
+
+#### `askWithInfo(prompt, options)`
+Get detailed response information including cost and usage.
+
+```javascript
+const info = claude.askWithInfo('Explain quantum computing');
+console.log(info.result);     // The response text
+console.log(info.cost);       // Cost in USD
+console.log(info.sessionId);  // Session identifier
+```
+
+#### `listChats()`
+List all saved conversations.
+
+```javascript
+const chats = claude.listChats();
+chats.forEach(chat => {
+    console.log(`${chat.sessionId}: ${chat.messageCount} messages`);
+});
+```
+
+#### `loadChat(sessionId)`
+Load a specific conversation by session ID.
+
+```javascript
+const chatData = claude.loadChat('session-id-here');
+console.log(chatData.messages);
+```
+
+## Examples
+
+See the `examples/` directory for more detailed examples:
+
+- `basic-usage.js` - Simple questions and conversations
+- `chat-management.js` - Working with saved chats
+- `code-assistant.js` - Using Claude for code assistance
+
+## Requirements
+
+- Node.js 14 or higher
+- Claude CLI installed and configured
+- Valid Claude API key (set via Claude CLI)
+
+## License
+
+MIT
